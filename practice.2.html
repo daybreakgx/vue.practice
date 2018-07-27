@@ -1,0 +1,40 @@
+<html>
+    <script src='node_modules/vue/dist/vue.js'> </script>
+    <div id="app_1">
+        <p> {{ foo }} </p>
+        <!-- <button v-on:click="foo='changed'">change data</button> -->
+        <input v-model="foo" />
+    </div>
+
+    <div id='app_2'>
+        <p> {{ a }}</p>
+        <input v-model='a' />
+    </div>
+
+    <script>
+        var obj = {foo: 'bar'}
+        Object.freeze(obj)
+        var app1 = new Vue({
+            el: '#app_1',
+            data: obj,
+        })
+
+        var app2 = new Vue({
+            el: '#app_2',
+            data: {
+                a: 32
+            },
+            created: function() {
+                console.log("created, a: " + this.a)
+            },
+            updated: function() {
+                console.log('updated, a: ' + this.a)
+            }
+        })
+        app2.$watch('a', function(newValue, old){
+            alert(app2.$el === document.getElementById('app_2'))
+            alert(app2.$data.a)
+            alert("new: " + newValue + ", old: " + old)
+        })
+    </script>
+</html>
